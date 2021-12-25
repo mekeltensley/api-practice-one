@@ -1,0 +1,20 @@
+[
+    {
+        "id":1, 
+        "name": "Boston",
+        "state": "Massachusetts",
+        "imageUrl": "images/Massachusetts.jpg"
+    },
+    {
+        "id":2, 
+        "name": "New York",
+        "state": "New York",
+        "imageUrl": "images/New York.jpg"
+    },
+    {
+        "id":3, 
+        "name": "Chicago",
+        "state": "Illinois",
+        "imageUrl": "images/Chicago.jpg"
+    }
+]

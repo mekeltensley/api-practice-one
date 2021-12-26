@@ -10,7 +10,7 @@ let router = express.Router();
 
 //create GET to return a list of cities 
 
-router.get('/', function(req, res,next) {
+router.get('/', function(req, res) {
     citiesRepo.get(function(data) {
         res.status(200).json({
             "status": 200,
@@ -19,13 +19,14 @@ router.get('/', function(req, res,next) {
             "data": data
         })
     }, function(err){
-        next(err);
+        console.log(err);
     });
 });
 
 //create the router that uses an id calling the getById function
+//
 
-router.get('/:id', function(req,res,next){
+router.get('/:id', function(req,res){
     citiesRepo.getById(req.params.id, function(data){
         if(data) {
             res.status(200).json({

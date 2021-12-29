@@ -45,7 +45,27 @@ let citiesRepo = {
                 resolve(cities);
             }
         })
+    },
+    //post route to add new data to file
+    insert: function(newData, resolve, reject) {
+        fs.readFile(FILE_NAME, function(err, data) {
+            if(err) {
+                reject(err);
+            } else {
+                let cities = JSON.parse(data);
+                cities.push(newData);
+                fs.writeFile(FILE_NAME, JSON.stringify(cities), function(err) {
+                    if(err) {
+                        reject(err);
+                    } else {
+                        resolve(newData);
+                    }
+                })
+            }
+        })
     }
 };
+
+
 
 module.exports = citiesRepo;

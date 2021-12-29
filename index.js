@@ -8,6 +8,9 @@ let citiesRepo = require('./repos/citiesRepo');
 // use the express router object
 let router = express.Router();
 
+//set up middleware to support JSON data parsing in request object 
+
+app.use(express.json());
 
 //create GET to return a list of cities 
 
@@ -70,6 +73,19 @@ router.get('/:id', function(req,res, next){
     })
 });
 
+router.post('/', function(req, res, next) {
+    citiesRepo.insert(req.body, function(data){
+        res.status(201).json({
+            "status": 201, 
+            "statusText": "Created", 
+            "message": "New City Added", 
+            "data": data
+        });
+    }, 
+    function(err) {
+        next(err);
+    });
+})
 
 //middleware 
 //configure the router so all routers are prefixed with /api/v1

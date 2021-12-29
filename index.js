@@ -1,6 +1,7 @@
 //brings in the express server and creates the application 
 const { application } = require('express');
 let express = require('express');
+const { search } = require('./repos/citiesRepo');
 let app = express();
 let citiesRepo = require('./repos/citiesRepo');
 
@@ -10,7 +11,7 @@ let router = express.Router();
 
 //create GET to return a list of cities 
 
-router.get('/', function(req, res) {
+router.get('/', function(req, res, next) {
     citiesRepo.get(function(data) {
         res.status(200).json({
             "status": 200,
@@ -19,14 +20,34 @@ router.get('/', function(req, res) {
             "data": data
         })
     }, function(err){
-        console.log(err);
+        next(err);
     });
+});
+
+//create a GET search for cities by id or name
+// search?id=n&name=str
+
+router.get('/search', function(req, res, next) {
+    let searchObject = {
+        "id": req.query,
+        "name": req.query.name
+    };
+    citiesRepo.search(searchObject, function(data) {
+        res.status(200).json({
+            "status": 200,
+            "statusText": "OK",
+            "message": "Search results retrieved",
+            "data": data
+        });
+    }, function(error) {
+        next(error);
+    }); 
 });
 
 //create the router that uses an id calling the getById function
 //
 
-router.get('/:id', function(req,res){
+router.get('/:id', function(req,res, next){
     citiesRepo.getById(req.params.id, function(data){
         if(data) {
             res.status(200).json({
@@ -44,10 +65,10 @@ router.get('/:id', function(req,res){
                     "code": "NOT_FOUND",
                     "message": "The ciy with id " + req.params.id + " could not be found."
                 }
-            })
+            });
         }
     })
-})
+});
 
 
 //middleware 
